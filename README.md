@@ -6,6 +6,78 @@ NRP              | Nama
 05111940000014   | Ega Prabu Pamungkas
 05111940000178   | Muhammad Rizqullah Akbar
 05111940000227   | Rayhan Daffa Alhafish
+# Nomor 1
+### Soal
+*Luffy bersama Zoro berencana membuat peta tersebut dengan kriteria EniesLobby sebagai DNS Server, Jipangu sebagai DHCP Server, Water7 sebagai Proxy Server*
+### Jawaban
+Membuat topologi seperti perintah soal dan mencoba ping google.com pada EniesLobby, Jipangu, dan Water7. Untuk topologi nya sendiri dapat dilihat di bawah ini : <br> 
+
+![img](https://github.com/rayhandaffa/Jarkom-Modul-3-C09-2021/blob/main/img/01-topologi.jpeg)
+# Nomor 2
+### Soal
+*Foosha sebagai DHCP Relay*
+### Jawaban
+Untuk dapat menjawab pertanyaan di atas berikut adalah beberapa langkah-nya : <br> 
+* Menambahkan konfigurasi pada `isc-dhcp-server` pada Jipangu Mengarahkan interfaces pada `eth0` karena Jipangu tersambung dengan nodes lainnya melalui eth0 sehingga Jipangu dapat tersambung dengan Foosha.<br> 
+* Menambahkan konfigurasi pada `dhcpf.conf` pada Jipangu
+Pada Jipangu dilakukan konfigurasi untuk melakukan relay pada subnet yang menghubungkan Jipangu dengan Foosha, yaitu subnet 192.188.2.0
+   ```
+   subnet 192.188.2.0 netmask 255.255.255.0 {
+    }
+   ```
+* Menambahkan konfigurasi pada `isc-dhcp-relay` pada Foosha
+Menambahkan IP Address Jipangu pada SERVERS sehingga Foosha dapat menerima dan melanjutkan request kepada DHCP Server. Kemudian, pada INTERFACES ditambahkan eth0 eth1 eth2 supaya Foosha dapat berjalan dan menerima request dari switch 1, 2, dan 3.
+* Kemudian lakukan konfigurasi `/etc/dhcp/dhcpd.conf` di bawah ini yang akan digunakan juga pada nomor 3 hingga 6. 
+    ```
+    subnet 192.188.1.0 netmask 255.255.255.0 {
+        range 192.188.1.20 192.188.1.99;
+        range 192.188.1.150 192.188.1.169;
+        option routers 192.188.1.1;
+        option broadcast-address 192.188.1.255;
+        option domain-name-servers 192.188.2.2;
+        default-lease-time 360;
+        max-lease-time 7200;
+    }
+
+    subnet 192.188.3.0 netmask 255.255.255.0 {
+        range 192.188.3.30 192.188.3.50;
+        option routers 192.188.3.1;
+        option broadcast-address 192.188.3.255;
+        option domain-name-servers 192.188.2.2;
+        default-lease-time 360;
+        max-lease-time 7200;
+      }
+    ```
+
+
+# Nomor 3
+### Soal
+*Ada beberapa kriteria yang ingin dibuat oleh Luffy dan Zoro, yaitu:* <br>
+*1. Semua client yang ada HARUS menggunakan konfigurasi IP dari DHCP Server.* <br>
+*2. Client yang melalui Switch1 mendapatkan range IP dari [prefix IP].1.20 - [prefix IP].1.99 dan [prefix IP].1.150 - [prefix IP].1.169* <br>
+### Jawaban 
+* Supaya semua client mendapatkan IP dari DHCP Server, pada konfigurasi `/etc/network/interfaces` ditambahkan
+    ```
+    auto eth0
+    iface eth0 inet dhcp
+    ```
+    <br>
+* Selanjutnya, lakukanlah comment `echo nameserver 192.168.122.1 > /etc/resolv.conf` pada masing-masing client sehingga nameserver mengarah pada DHCP Server. <br> 
+* Konfigurasi `/etc/dhcp/dhcpd.conf` seperti apa yang sudah dijabarkan pada bagian nomor 2. <br> 
+* Untuk Client Loguetown dapat dilihat di bawah ini : <br> 
+    ![img](https://github.com/rayhandaffa/Jarkom-Modul-3-C09-2021/blob/main/img/03-1-loguetown-ip.jpeg)
+* Selanjutnya, untuk Client 
+    ![img](https://github.com/rayhandaffa/Jarkom-Modul-3-C09-2021/blob/main/img/03-2-alabasta-ip.jpeg)
+    
+# Nomor 4 
+### Soal 
+*3. Client yang melalui Switch3 mendapatkan range IP dari [prefix IP].3.30 - [prefix IP].3.50*
+
+### Jawaban 
+Untuk dapat menjawab pertanyaan soal nomor 4 ini lakukanlah configurasi `/etc/dhcp/dhcpd.conf` untuk set range IP pada switch 3
+Konfigurasi untuk switch 3 menggunakan subnet `192.188.3.0`. Setelah itu dapat dilihat Client Skypie dan Totoland yang memiliki IP dari DHCP Server. Skypie memiliki IP `192.188.3.69` karena diberikan fixed address yang konfigurasinya akan dijelaskan pada nomor 7.
+* Totoland <br> 
+![img](https://github.com/rayhandaffa/Jarkom-Modul-3-C09-2021/blob/main/img/04-tottoland-ip.jpeg) <br> 
 
 # Nomor 5
 ### Soal
