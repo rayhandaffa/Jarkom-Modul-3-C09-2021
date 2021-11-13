@@ -116,7 +116,7 @@ Setelah domain dibuat, atur agar proxy (pada node Water7) yang digunakan menggun
 http_port 5000
 visible_hostname jualbelikapal.C09.com
 ```
-Setelah semua dikonfigurasikan maka pada node client dapat menggunakan proxy dengan `export http_proxy="http://jualbelikapal.C09.com:5000"`.
+Setelah semua dikonfigurasikan maka pada node client dapat menggunakan proxy dengan `export http_proxy="http://jualbelikapal.C09.com:5000"`. Lalu dapat dicek apakah sudah menggunakan proxy dengan `env | grep -i proxy`.
 
 ![08-1](img/08-1-export-proxy.jpeg)
 
@@ -138,11 +138,11 @@ htpasswd -bm /etc/squid/passwords zorobelikapalC09 zoro_C09
 ```
 Terkahir dapat melakukan test dengan mencoba mengakses webiste *its.ac.id*
 
-![luffy-username](img/luffy-username.jpeg)
+![luffy-username](img/09-1-luffy-username.jpeg)
 
-![luffy-password](img/luffy-password.jpeg)
+![luffy-password](img/09-2-luffy-password.jpeg)
 
-![lynx-its.ac.id](img/lynx-itsacid.jpeg)
+![lynx-its.ac.id](img/09-3-lynx-itsacid.jpeg)
 
 # Nomor 11
 ### Soal
