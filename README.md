@@ -158,6 +158,10 @@ acl tuesday_friday time TWHF 17:00-23:59
 acl wednesday_saturday time WHFA 00:00-03:00
 ```
 
+**Keterangan:**
+-   **MTWHF** adalah hari-hari dimana user diperbolehkan menggunakan proxy. (S: Sunday, M: Monday, T: Tuesday, W: Wednesday, H: Thursday, F: Friday, A: Saturday)
+-   Penulisan jam menggunakan format: **h1:m1-h2:m2**. Dengan syarat **h1<h2** dan **m1<m2**
+
 dan pada file *squid.conf* diisi dengan
 ```
 http_access allow monday_thursday USERS
