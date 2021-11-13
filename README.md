@@ -144,9 +144,41 @@ Terkahir dapat melakukan test dengan mencoba mengakses webiste *its.ac.id*
 
 ![lynx-its.ac.id](img/09-3-lynx-itsacid.jpeg)
 
+# Nomor 10
+### Soal
+*Transaksi jual beli tidak dilakukan setiap hari, oleh karena itu akses internet dibatasi hanya dapat diakses setiap hari Senin-Kamis pukul 07.00-11.00 dan setiap hari Selasa-Jum’at pukul 17.00-03.00 keesokan harinya (sampai Sabtu pukul 03.00) (10).*
+
+### Jawaban
+Untuk membatasi akses pada waktu-waktu yang ditentukan maka diperlukan konfigurasi dengan membuat file */etc/squid/restricted-times.conf* dan di*include* ke dalam file */etc/squid/squid.conf*.
+
+Pada file *restricted-times.conf* diisi dengan membuat
+```
+acl monday_thursday time MTWH 07:00-11:00
+acl tuesday_friday time TWHF 17:00-23:59
+acl wednesday_saturday time WHFA 00:00-03:00
+```
+
+dan pada file *squid.conf* diisi dengan
+```
+http_access allow monday_thursday USERS
+http_access allow tuesday_friday USERS
+http_access allow wednesday_saturday USERS
+http_access deny
+```
+Dengan ini pembatasan akses disesuaikan dengan waktu yang diminta.
+
+![10.1](img/10-1-date-forbidden-time.jpeg)
+
+![10.2](img/10-2-lynx-forbidden-time.jpeg)
+
+![10.3](img/10-3-date-allowed-time.jpeg)
+
+![10.4](img/10-4-lynx-allowed-time.jpeg)
+
 # Nomor 11
 ### Soal
 *Agar transaksi bisa lebih fokus berjalan, maka dilakukan redirect website agar mudah mengingat website transaksi jual beli kapal. Setiap mengakses google.com, akan diredirect menuju super.franky.yyy.com dengan website yang sama pada soal shift modul 2. Web server super.franky.yyy.com berada pada node Skypie (11).*
+
 ### Jawaban
 Untuk melakukan redirect website google.com ke super.franky.C09.com, maka dilakukan tambahan konfigurasi pada *proxy server* water7 pada file */etc/squid/squid.conf* dengan barisan kode berikut.
 ```
@@ -154,7 +186,10 @@ acl google dstdomain .google.com
 http_access deny google
 deny_info http://super.franky.C09.com google
 ```
-![11](img/?)
+
+![11.1](/img/11-1-lynx-google.jpeg)
+
+![11.2](/img/11-2-super-franky.jpeg)
 
 # Nomor 12
 ### Soal
@@ -172,7 +207,7 @@ delay_access 1 deny all
 ```
 Ditambahkan `delay_parameters 1 1250/1250` untuk membatasi bandwith menjadi 10kbps, dimana 10kbps = 1250 Byte per second.
 
-![12](img/?)
+![12](img/12-download-lemot.jpeg)
 
 # Nomor 13
 ### Soal
@@ -186,4 +221,4 @@ delay_access 2 allow !luffy
 ```
 Dimana kode diatas bermaksud user selain luffy tidak akan dibatasi bandwithnya.
 
-![13](img/?)
+![13](img/13-download-lancar-jaya.jpeg)
